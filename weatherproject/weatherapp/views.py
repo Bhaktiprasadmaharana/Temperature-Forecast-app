@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib import messages
 import requests
 import datetime
+import os
 
 # View function for the homepage
 def home(request):
@@ -11,17 +12,18 @@ def home(request):
     else:
         city = 'indore'
 
-    # Base URL to fetch weather data for the given city (you need to append your API key)
-    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid=baafccb3e69024262ef620f3b229ad8b'
+    # Base URL to fetch weather data for the given city
+    OPENWEATHER_API_KEY = os.environ.get('OPENWEATHER_API_KEY', '')
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPENWEATHER_API_KEY}'
     
     # Parameters to request temperature in metric units (Celsius)
     PARAMS = {'units': 'metric'}
 
-    # Your Google Custom Search API Key (keep it secret)
-    API_KEY = 'AIzaSyCRjmHoXXEtEcI62o7hiJFGdxFYWbZ0H4c'
+    # Your Google Custom Search API Key (loaded from env)
+    API_KEY = os.environ.get('GOOGLE_API_KEY', '')
 
-    # Your Google Custom Search Engine ID
-    SEARCH_ENGINE_ID = '176295dedf9e94fd2'
+    # Your Google Custom Search Engine ID (loaded from env)
+    SEARCH_ENGINE_ID = os.environ.get('GOOGLE_SEARCH_ENGINE_ID', '')
 
     # Prepare query to fetch city-related image from Google Images
     query = city + " 1920x1080"
